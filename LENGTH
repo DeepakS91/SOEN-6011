@@ -1,0 +1,127 @@
+#-------------------------------------------------------------------------------
+# Name:        module2
+# Purpose:
+#
+# Author:      Ranganath
+#
+# Created:     26/07/2017
+# Copyright:   (c) Ranganath 2017
+# Licence:     <your licence>
+#-------------------------------------------------------------------------------
+
+
+from xml.etree import ElementTree as ET
+import xml.dom.minidom as MD
+import math
+import sys
+
+class LENGTH:
+
+    def __init__(self,precision=50,tolerance=0.000001,init_val=2):
+
+
+
+
+
+        self.precision = precision
+        self.tolerance = tolerance
+        self.init_val = init_val
+        self.get_alpha();
+
+    def get_pi(self):
+        """Return pi value."""
+        global piv
+        piv = math.pi
+        return piv
+
+
+    def get_sin(self, radian):
+        """Return sin value of a number."""
+        global sine
+        res = radian
+        res=math.sin(radian)
+        sine= res
+
+        return res
+
+    def get_cos(self, radian):
+        """Return cos value of a number."""
+        global cosine
+        res = 1
+        res = res=math.cos(radian)
+        cosine=res
+
+        return res
+
+    def get_alpha(self):
+        """Return alpha value."""
+        global alpha
+        temp = self.init_val
+        sin_int = self.get_sin(self.init_val);
+        pi_val  = self.get_pi();
+        abs_val = abs(self.init_val - sin_int - pi_val/2)
+        while (abs_val > self.tolerance):
+            temp = temp - (temp - sin_int - pi_val/2) / (1 - self.get_cos(temp))
+            sin_int = self.get_sin(temp)
+            abs_val = abs(temp - sin_int - pi_val/2)
+        alpha=temp
+
+
+        return temp
+
+
+    def get_len(self, radius):
+        """Return length value."""
+
+        alpha = self.get_alpha();
+        cos_int = (1 - self.get_cos(alpha / 2))
+        l = 2 * int(radius) * cos_int
+        return l
+
+
+
+"""if __name__ == '__main__':
+     find_length = FIND_LENGTH()
+     radius = raw_input('Enter the value of radius: ')
+     len_val = find_length.get_len(radius)
+     document = ET.Element('cheers')
+     node = ET.SubElement(document, 'result')
+     node.text = "Length=%.3f"%len_val
+     et = ET.ElementTree(document)
+
+     with open('length_value.xml', 'wb') as out:
+        out.write('<?xml version="1.0" encoding="utf-8" ?>')
+        out.write('<!DOCTYPE cheers SYSTEM "cheers.dtd">')
+        et.write(out, xml_declaration=False, encoding='utf-8')
+     print "length value = %.3f"%len_val"""
+
+if __name__ == '__main__':
+
+     radius = raw_input('Enter the value of radius: ')
+     if int(radius)<=0:
+        sys.exit("Please enter the value from 1 to 20")
+     elif int(radius)>20:
+        sys.exit("Please enter the value from 1 to 20")
+
+     length = LENGTH()
+
+     len_val = length.get_len(radius)
+
+     print "pi value %.3f"%piv
+     print "Sin value:%.3f"%sine
+     print "Cos value:%.3f"%cosine
+     print "Alpha value:%.3f"%alpha
+     print "length value = %.3f"%len_val
+     cheers = ET.Element('cheers')
+     cheers.set('type','personal')
+     node = ET.SubElement(cheers, 'length')
+     node.text = "Length_value=%.3f"%len_val
+
+     def presentation(element):
+        serialized_string=ET.tostring(element,'UTF-8')
+        parsed_string=MD.parseString(serialized_string)
+        return parsed_string.toprettyxml(indent=" ",encoding="UTF-8")
+
+print presentation(cheers)
+
+
