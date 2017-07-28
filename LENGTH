@@ -81,7 +81,7 @@ class LENGTH:
 
         alpha = self.get_alpha()
         cos_int = 1 - self.get_cos(alpha / 2)
-        l = 2 * int(radius) * cos_int
+        l = 2 * float(radius) * cos_int
         return l
 
 
@@ -89,13 +89,11 @@ if __name__ == '__main__':
 
     radius = raw_input('Enter the value of radius: ')
     try:
-        if int(radius) <= 0:
-            sys.exit('Please enter the value greater than 0')
-    except:
-        print (sys.exc_info()[0],
-               'occured please enter value greater than 0 and integer values'
-               )
-        sys.exit(1)
+        if float(radius) < 0:
+            exit('Please enter the value greater than or equal to 0')
+    except ValueError:
+        print 'please enter numeric values'
+        exit(1)
 
     length = LENGTH()
 
