@@ -101,7 +101,7 @@ class FIND_LENGTH:
 
         alpha = self.get_alpha()
         cos_int = 1 - self.get_cos(alpha / 2)
-        l = 2 * int(radius) * cos_int
+        l = 2 * float(radius) * cos_int
         return l
 
 
@@ -109,10 +109,10 @@ if __name__ == '__main__':
     find_length = FIND_LENGTH()
     radius = raw_input('Enter the value of radius: ')
     try:
-        if int(radius) <= 0:
-            exit('Please enter the value greater than 0')
+        if float(radius) < 0:
+            exit('Please enter the value greater than or equal to 0')
     except ValueError:
-        print 'please enter value greater than 0 and integer values'
+        print 'please enter numeric values'
         exit(1)
 
     len_val = find_length.get_len(radius)
@@ -122,3 +122,4 @@ if __name__ == '__main__':
     print 'Cos value:%.30f' % cosine
     print 'Alpha value:%.30f' % alpha
     print 'length value = %.30f' % len_val
+
